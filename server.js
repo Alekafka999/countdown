@@ -23,8 +23,9 @@ const MIME_TYPES = {
 
 function safePath(urlPath) {
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]);
-  const normalized = path.normalize(cleanPath).replace(/^([.][.][/\\])+/, '');
-  return path.join(ROOT, normalized);
+  const relativePath = cleanPath.replace(/^[/\\]+/, '');
+  const normalized = path.normalize(relativePath);
+  return path.resolve(ROOT, normalized);
 }
 
 function sendFile(res, filePath) {
