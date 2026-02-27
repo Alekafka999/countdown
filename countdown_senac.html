@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 <style>
 
   :root{
-    /* Paleta inspirada na arte (laranja quente + azul/ciano tecnológico) */
+    /* Paleta inspirada na arte (laranja quente + azul/ciano tecnolÃ³gico) */
     --bg1: #ff7a18;
     --bg2: #e63b6f;
     --bg3: #0b3b7a;
@@ -37,14 +37,14 @@
     overflow:hidden;
     position:relative;
 
-    /* Fundo “bokeh + gradiente” */
+    /* Fundo â€œbokeh + gradienteâ€ */
     background:
       radial-gradient(1000px 600px at 20% 18%, rgba(255,122,24,0.90) 0%, rgba(230,59,111,0.55) 35%, rgba(11,59,122,0.18) 65%, rgba(10,26,58,0.05) 100%),
       radial-gradient(900px 700px at 78% 78%, rgba(43,188,255,0.35) 0%, rgba(11,59,122,0.55) 40%, rgba(10,26,58,0.95) 90%),
       linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 32%, var(--bg3) 70%, var(--bg4) 100%);
   }
 
-  /* “bolhas” desfocadas (bokeh) */
+  /* â€œbolhasâ€ desfocadas (bokeh) */
   body::before, body::after{
     content:"";
     position:fixed;
@@ -70,7 +70,7 @@
     opacity:0.45;
   }
 
-  /* Overlay “rede de pontos” (linhas) */
+  /* Overlay â€œrede de pontosâ€ (linhas) */
   .net{
     position:fixed;
     inset:0;
@@ -79,7 +79,7 @@
     opacity:0.85;
   }
 
-  /* Grão bem sutil pra dar textura */
+  /* GrÃ£o bem sutil pra dar textura */
   .grain{
     position:fixed;
     inset:0;
@@ -365,17 +365,17 @@
   <div class="shell">
   <div class="header">
     <div class="label">Contagem Regressiva</div>
-    <div id="event-title" title="Clique para editar" contenteditable="true">Meu Evento</div>
+    <div id="event-title">Fim do Curso Técnico em Informática - SENAC SJBV</div>
   </div>
 
   <div class="date-panel">
     <div class="field">
-      <label>Data de início</label>
-      <input type="datetime-local" id="start-date">
+      <label>Data Inicial</label>
+      <input type="datetime-local" id="start-date" readonly disabled>
     </div>
     <div class="field">
       <label>Data alvo</label>
-      <input type="datetime-local" id="end-date">
+      <input type="datetime-local" id="end-date" readonly disabled>
     </div>
   </div>
 
@@ -403,15 +403,15 @@
 
   <div class="progress-wrap" id="progress-wrap">
     <div class="progress-meta">
-      <span id="prog-start">—</span>
+      <span id="prog-start">â€”</span>
       <span id="prog-pct">0%</span>
-      <span id="prog-end">—</span>
+      <span id="prog-end">â€”</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="prog-fill" style="width:0%"></div>
     </div>
   </div>
-  <div class="footer">Dica: clique no título para editar o nome do evento. ✨</div>
+  <div class="footer"></div>
   </div>
 </div>
 
@@ -433,12 +433,12 @@
   };
 
   // Defaults
-  const now = new Date();
-  const defaultEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const fixedStart = new Date(); // data inicial automática do computador do visitante
+  const fixedEnd = new Date(2026, 4, 8, 19, 0, 0, 0); // 08/05/2026 19:00 (hora local)
   const toLocalIso = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 
-  els.start.value = toLocalIso(now);
-  els.end.value = toLocalIso(defaultEnd);
+  els.start.value = toLocalIso(fixedStart);
+  els.end.value = toLocalIso(fixedEnd);
 
   const fmtDate = d => d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
 
@@ -456,10 +456,8 @@
   }
 
   function tick() {
-    const startVal = els.start.value ? new Date(els.start.value) : null;
-    const endVal   = els.end.value   ? new Date(els.end.value)   : null;
-
-    if (!startVal || !endVal) return;
+    const startVal = fixedStart;
+    const endVal   = fixedEnd;
 
     const nowMs   = Date.now();
     const startMs = startVal.getTime();
@@ -473,7 +471,7 @@
 
     if (totalMs <= 0) {
       els.fill.style.width = '0%';
-      els.pct.textContent = '—';
+      els.pct.textContent = 'â€”';
     } else {
       const elapsed = Math.min(Math.max(nowMs - startMs, 0), totalMs);
       const pct = (elapsed / totalMs * 100).toFixed(1);
@@ -503,8 +501,12 @@
   tick();
   setInterval(tick, 1000);
 
-  els.start.addEventListener('change', tick);
-  els.end.addEventListener('change', tick);
+
 </script>
 </body>
 </html>
+
+
+
+
+
