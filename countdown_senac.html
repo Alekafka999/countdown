@@ -316,32 +316,6 @@
   @keyframes blink{ 0%,100%{opacity:0.7;} 50%{opacity:0.25;} }
   @keyframes pulse{ 0%,100%{opacity:1; transform: scale(1);} 50%{opacity:0.85; transform: scale(0.985);} }
 
-  /* Music control */
-  .music-control{
-    margin-top: 1rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:0.7rem;
-  }
-  .music-btn{
-    border:1px solid rgba(255,255,255,0.22);
-    background: rgba(255,255,255,0.12);
-    color: var(--text);
-    border-radius: 999px;
-    padding: 0.55rem 1rem;
-    font-family:'DM Sans', sans-serif;
-    font-size:0.82rem;
-    letter-spacing:0.04em;
-    cursor:pointer;
-  }
-  .music-btn:hover{ background: rgba(255,255,255,0.18); }
-  .music-status{
-    font-size:0.75rem;
-    color: rgba(247,251,255,0.80);
-    letter-spacing:0.04em;
-  }
-
   /* Responsive */
   @media (max-width: 560px){
     .shell{ padding: 1.6rem 1.2rem; }
@@ -438,13 +412,6 @@
     </div>
   </div>
   <div class="footer"></div>
-  <div class="music-control">
-    <button type="button" class="music-btn" id="music-btn">Tocar musica</button>
-    <span class="music-status" id="music-status">Pausada</span>
-  </div>
-  <audio id="bg-music" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
   </div>
 </div>
 
@@ -463,8 +430,6 @@
     progStart: document.getElementById('prog-start'),
     progEnd: document.getElementById('prog-end'),
     countdown: document.getElementById('countdown'),
-    musicBtn: document.getElementById('music-btn'),
-    musicStatus: document.getElementById('music-status'),
   };
 
   // Defaults
@@ -478,34 +443,6 @@
   const fmtDate = d => d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' });
 
   let prev = { dias: null, horas: null, min: null, sec: null };
-
-  // Audio de fundo: o navegador pode exigir clique do usuario para iniciar
-  const music = document.getElementById('bg-music');
-  if (music && els.musicBtn && els.musicStatus) {
-    music.volume = 0.35;
-
-    const setMusicUi = (playing) => {
-      els.musicBtn.textContent = playing ? 'Pausar musica' : 'Tocar musica';
-      els.musicStatus.textContent = playing ? 'Tocando' : 'Pausada';
-    };
-
-    setMusicUi(false);
-
-    els.musicBtn.addEventListener('click', async () => {
-      if (music.paused) {
-        try {
-          await music.play();
-          setMusicUi(true);
-        } catch (error) {
-          console.error('Falha ao iniciar audio:', error);
-          els.musicStatus.textContent = 'Clique novamente para liberar audio';
-        }
-      } else {
-        music.pause();
-        setMusicUi(false);
-      }
-    });
-  }
 
   function setDigit(key, val) {
     const el = els[key];
