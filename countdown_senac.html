@@ -487,7 +487,11 @@
       return;
     }
 
-    const dias  = Math.floor(leftMs / 86400000);
+    const nowDate = new Date(nowMs);
+    const nowMidnight = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+    const endMidnight = new Date(endVal.getFullYear(), endVal.getMonth(), endVal.getDate());
+    const dias = Math.max(0, Math.round((endMidnight - nowMidnight) / 86400000));
+
     const horas = Math.floor((leftMs % 86400000) / 3600000);
     const min   = Math.floor((leftMs % 3600000)  / 60000);
     const sec   = Math.floor((leftMs % 60000)    / 1000);
@@ -505,6 +509,7 @@
 </script>
 </body>
 </html>
+
 
 
 
