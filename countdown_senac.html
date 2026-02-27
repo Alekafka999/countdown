@@ -396,11 +396,11 @@
 
   <div class="date-panel">
     <div class="field">
-      <label>Data Inicial</label>
+      <label for="start-date">Data Inicial</label>
       <input type="datetime-local" id="start-date" readonly disabled>
     </div>
     <div class="field">
-      <label>Data alvo</label>
+      <label for="end-date">Data alvo</label>
       <input type="datetime-local" id="end-date" readonly disabled>
     </div>
   </div>
@@ -496,7 +496,8 @@
         try {
           await music.play();
           setMusicUi(true);
-        } catch (e) {
+        } catch (error) {
+          console.error('Falha ao iniciar audio:', error);
           els.musicStatus.textContent = 'Clique novamente para liberar audio';
         }
       } else {
@@ -510,7 +511,7 @@
     const el = els[key];
     if (prev[key] !== val) {
       el.classList.remove('flip');
-      void el.offsetWidth;
+      el.getBoundingClientRect();
       el.classList.add('flip');
       el.textContent = val;
       prev[key] = val;
@@ -571,6 +572,7 @@
 </script>
 </body>
 </html>
+
 
 
 
