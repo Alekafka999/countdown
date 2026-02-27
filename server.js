@@ -25,6 +25,9 @@ function safePath(urlPath) {
   const cleanPath = decodeURIComponent(urlPath.split('?')[0]);
   const relativePath = cleanPath.replace(/^[/\\]+/, '');
   const normalized = path.normalize(relativePath);
+  if (normalized.startsWith('..') || path.isAbsolute(normalized)) {
+    return null;
+  }
   return path.resolve(ROOT, normalized);
 }
 
@@ -50,10 +53,16 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('ok');
+    return;
+  }
+
   let requestPath = req.url === '/' ? '/index.html' : req.url;
   const filePath = safePath(requestPath);
 
-  if (!filePath.startsWith(ROOT)) {
+  if (!filePath) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Acesso negado');
     return;
